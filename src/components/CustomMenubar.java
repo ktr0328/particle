@@ -3,6 +3,7 @@ package components;
 import pub.controll.Manager;
 import pub.controll.Manager.*;
 import pub.controll.act.HighSpeed;
+import pub.controll.act.Standard;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -25,8 +26,8 @@ class CustomMenubar extends JMenuBar {
 
         createItem("test", fileMenu);
         setShortCutKey(this.menuItems.get("test"), KeyEvent.VK_T, KeyEvent.CTRL_DOWN_MASK);
-        this.menuItems.get("test").addActionListener(e ->{
-            CanvasArea.getM().change_status("high_speed");
+        this.menuItems.get("test").addActionListener(e -> {
+            if (CanvasArea.getM().getS() instanceof Standard) CanvasArea.getM().change_status("high_speed");
         });
 
         createItem("quit", fileMenu);

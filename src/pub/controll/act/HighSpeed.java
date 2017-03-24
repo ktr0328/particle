@@ -9,5 +9,4 @@ public class HighSpeed extends Standard {
         super();
         this.coefficient = 2;
     }
-
 }

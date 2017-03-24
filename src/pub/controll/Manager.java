@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 public class Manager {
     private CanvasArea canvas;
     private Timer timer;
+
     private Status s;
     private HashMap<String, Status> status_list;
 
@@ -48,6 +49,10 @@ public class Manager {
             return new Dot(Integer.parseInt(Setting.getSetting("dot_size")), new Dimension(canvas.getWidth(), canvas.getHeight()));
         else
             return new Star(Integer.parseInt(Setting.getSetting("dot_size")), new Dimension(canvas.getWidth(), canvas.getHeight()));
+    }
+
+    public Status getS() {
+        return s;
     }
 
     public void change_status(String status) {

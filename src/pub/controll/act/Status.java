@@ -22,7 +22,14 @@ public abstract class Status {
         return status;
     }
 
-
+    /**
+     * 壁反射。particleの座標に応じてベクトルを反転させる。
+     *
+     * @param position
+     * @param vector
+     * @param size
+     * @return Point2D vector
+     */
     Point reflect(Point2D position, Point2D vector, Dimension size) {
         double x = vector.getX();
         double y = vector.getY();
