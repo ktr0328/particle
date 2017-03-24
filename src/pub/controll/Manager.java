@@ -1,6 +1,6 @@
 package pub.controll;
 
-import components.obj.CanvasAreaAbstract;
+import components.CanvasArea;
 import pub.Dot.Dot;
 import pub.Dot.Particle;
 import pub.Dot.Star;
@@ -13,22 +13,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Created by ktr on 2017/03/23.
  */
 public class Manager {
-    private CanvasAreaAbstract canvas;
+    private CanvasArea canvas;
     private Timer timer;
     private Status s;
     private HashMap<String, Status> status_list;
 
-    public Manager(CanvasAreaAbstract canvas) {
+    public Manager(CanvasArea canvas) {
         this.canvas = canvas;
-        timer = new Timer(40, new CanvasTimer());
+        timer = new Timer(30, new CanvasTimer());
 
         status_list = new HashMap<>();
         status_list.put("standard", new Standard());
@@ -37,13 +36,11 @@ public class Manager {
         this.s = status_list.get("standard");
     }
 
-    public List<Particle> generateParticles(int num, boolean isDot) {
-        List<Particle> list = new ArrayList<>();
-        for (int i = 0; i < num; i++) {
-            list.add(createEach(isDot));
-        }
+    public HashMap<String, Particle> generateParticles(int num, boolean isDot) {
+        HashMap<String, Particle> map = new HashMap<>();
+        Stream.iterate(0, i -> ++i).limit(num).forEach(i -> map.put(Integer.toString(i), createEach(isDot)));
 
-        return list;
+        return map;
     }
 
     private Particle createEach(boolean isDot) {
@@ -65,7 +62,10 @@ public class Manager {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            s.move();
+            canvas.getParticles().entrySet().forEach(elem -> {
+                s.move(canvas.getParticles().get(elem.getKey()), canvas.getSize());
+            });
+            canvas.repaint();
         }
     }
 }

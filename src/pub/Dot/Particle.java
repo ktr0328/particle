@@ -10,25 +10,46 @@ import java.util.Random;
  * Created by ktr on 2017/03/23.
  */
 public abstract class Particle {
+    private static int serial;
+    public int index;
     private int size;
-    private Point2D p;
+    private Random rnd;
+    Point2D.Double p;
 
-    Particle(int size, Dimension canvas_size) {
+    Point vector;
+
+    Particle(Dimension canvas_size) {
+        this.index = ++serial;
+        rnd = new Random();
         this.size = size;
-        this.p = setPosition(canvas_size);
-        // TODO ベクトル
+        this.p = new Point.Double(rnd.nextInt((int) canvas_size.getWidth()), rnd.nextInt((int) canvas_size.getHeight()));
+        this.vector = setVector(6);
     }
 
-    private Point setPosition(Dimension dimension) {
-        Random rnd = new Random();
-        return new Point(rnd.nextInt((int) dimension.getWidth()), rnd.nextInt((int) dimension.getHeight()));
+    private Point setVector(int limit) {
+        Point vector = new Point(0, 0);
+        while (vector.x == 0 || vector.y == 0) {
+            vector.x = rnd.nextInt(limit) - rnd.nextInt(limit);
+            vector.y = rnd.nextInt(limit) - rnd.nextInt(limit);
+        }
+
+        return vector;
     }
 
-    private void move(Status s) {
-        s.move();
+    public void setVector(Point vector) {
+        this.vector = vector;
     }
+
+    public abstract void setPoint(Point2D p);
+
+    public abstract Object getSymbol();
 
     public Point2D getPoint() {
         return this.p;
     }
+
+    public Point getVector() {
+        return vector;
+    }
+
 }

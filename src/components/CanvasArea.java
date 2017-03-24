@@ -2,26 +2,26 @@ package components;
 
 
 import components.obj.CanvasAreaAbstract;
+import pub.Dot.Dot;
 import pub.Dot.Particle;
+import pub.Dot.Star;
 import pub.controll.Manager;
 import pub.controll.setting.Setting;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Created by ktr on 2017/03/18.
  */
-class CanvasArea extends CanvasAreaAbstract {
+public class CanvasArea extends CanvasAreaAbstract {
     private Color bgColor;
     private Font font;
     private static Manager m;
 
-    public void setParticles(ArrayList<Particle> particles) {
-        this.particles = particles;
-    }
-
-    private ArrayList<Particle> particles;
+    private HashMap<String, Particle> particles;
 
     CanvasArea(int width, int height) {
         super(width, height);
@@ -32,7 +32,7 @@ class CanvasArea extends CanvasAreaAbstract {
                 Integer.parseInt(Setting.getSetting("color_blue")));
         this.font = new Font("Ricty Diminished", Font.BOLD, Integer.parseInt(Setting.getSetting("font_size")));
 
-        particles = (ArrayList<Particle>) m.generateParticles(Integer.parseInt(Setting.getSetting("dot_num")), true);
+        particles = m.generateParticles(Integer.parseInt(Setting.getSetting("dot_num")), true);
 
         m.timerStart();
     }
@@ -50,14 +50,30 @@ class CanvasArea extends CanvasAreaAbstract {
         g2.setFont(this.font);
         g2.drawString("テスト", getWidth() / 2, getHeight() / 2);
 
-        particles.forEach(e -> g2.drawString(".", (int)e.getPoint().getX(), (int)e.getPoint().getY()));
+        drawParticles(g2);
+
     }
 
-    public ArrayList<Particle> getParticles() {
+    private void drawParticles(Graphics2D g2) {
+        particles.entrySet().forEach(e -> {
+            if (particles.get(e.getKey()) instanceof Dot) {
+                g2.drawString((String) particles.get(e.getKey()).getSymbol(),
+                        (int)particles.get(e.getKey()).getPoint().getX(),
+                        (int) particles.get(e.getKey()).getPoint().getY());
+            } else if (particles.get(e.getKey()) instanceof Star) {
+                g2.drawString(Integer.toString((int)particles.get(e.getKey()).getSymbol()),
+                        (int)particles.get(e.getKey()).getPoint().getX(),
+                        (int) particles.get(e.getKey()).getPoint().getY());
+            }
+        });
+    }
+
+    public HashMap<String, Particle> getParticles() {
         return particles;
     }
 
     public static Manager getM() {
         return m;
     }
+
 }
