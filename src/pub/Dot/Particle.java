@@ -11,44 +11,47 @@ import java.util.Random;
  */
 public abstract class Particle {
     private static int serial;
-    public int index;
+
+    private int index;
     private int size;
     private Random rnd;
     Point2D.Double p;
 
-    Point vector;
+    Point2D.Double vector;
 
     Particle(Dimension canvas_size) {
         this.index = ++serial;
         rnd = new Random();
         this.size = size;
-        this.p = new Point.Double(rnd.nextInt((int) canvas_size.getWidth()), rnd.nextInt((int) canvas_size.getHeight()));
-        this.vector = setVector(6);
+        this.p = new Point.Double(rnd.nextDouble() * canvas_size.getWidth(), rnd.nextDouble() * canvas_size.getHeight());
+        this.vector = setVector(6d);
     }
 
-    private Point setVector(int limit) {
-        Point vector = new Point(0, 0);
-        while (vector.x == 0 || vector.y == 0) {
-            vector.x = rnd.nextInt(limit) - rnd.nextInt(limit);
-            vector.y = rnd.nextInt(limit) - rnd.nextInt(limit);
+    private Point2D.Double setVector(double limit) {
+        Point2D.Double vector = new Point2D.Double(0, 0);
+        while (Math.abs(vector.getX()) >= 0 && Math.abs(vector.getX()) < 1 || Math.abs(vector.getY()) >= 0 && Math.abs(vector.getY()) < 1) {
+            vector.setLocation(rnd.nextDouble() * limit - rnd.nextDouble() * limit,
+                rnd.nextDouble() * limit - rnd.nextDouble() * limit);
         }
 
         return vector;
     }
 
-    public void setVector(Point vector) {
+    public void setVector(Point2D.Double vector) {
         this.vector = vector;
     }
 
-    public abstract void setPoint(Point2D p);
+    public abstract void setPoint(Point2D.Double p);
+
+    public int getIndex() { return index; }
 
     public abstract Object getSymbol();
 
-    public Point2D getPoint() {
+    public Point2D.Double getPoint() {
         return this.p;
     }
 
-    public Point getVector() {
+    public Point2D.Double getVector() {
         return vector;
     }
 

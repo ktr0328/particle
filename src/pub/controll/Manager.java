@@ -13,7 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.stream.Stream;
 
 /**
@@ -22,23 +22,25 @@ import java.util.stream.Stream;
 public class Manager {
     private CanvasArea canvas;
     private Timer timer;
+    private final int FPS;
 
     private Status s;
-    private HashMap<String, Status> status_list;
+    private LinkedHashMap<String, Status> status_list;
 
     public Manager(CanvasArea canvas) {
         this.canvas = canvas;
-        timer = new Timer(30, new CanvasTimer());
+        this.FPS = 40;
+        timer = new Timer((int)(1000 / this.FPS), new CanvasTimer());
 
-        status_list = new HashMap<>();
+        status_list = new LinkedHashMap<>();
         status_list.put("standard", new Standard());
         status_list.put("high_speed", new HighSpeed());
 
         this.s = status_list.get("standard");
     }
 
-    public HashMap<String, Particle> generateParticles(int num, boolean isDot) {
-        HashMap<String, Particle> map = new HashMap<>();
+    public LinkedHashMap<String, Particle> generateParticles(int num, boolean isDot) {
+        LinkedHashMap<String, Particle> map = new LinkedHashMap<>();
         Stream.iterate(0, i -> ++i).limit(num).forEach(i -> map.put(Integer.toString(i), createEach(isDot)));
 
         return map;
@@ -67,9 +69,7 @@ public class Manager {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            canvas.getParticles().entrySet().forEach(elem -> {
-                s.move(canvas.getParticles().get(elem.getKey()), canvas.getSize());
-            });
+            canvas.getParticles().forEach((key, value) -> s.move(canvas.getParticles().get(key), canvas.getSize()));
             canvas.repaint();
         }
     }

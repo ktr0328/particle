@@ -17,8 +17,8 @@ public class Star extends Particle {
     }
 
     @Override
-    public void setPoint(Point2D point) {
-        p = (Point2D.Double) point;
+    public void setPoint(Point2D.Double point) {
+        p = point;
     }
 
     public Integer getSymbol() {

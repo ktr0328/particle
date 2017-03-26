@@ -18,7 +18,7 @@ public abstract class Status {
 
     public abstract void move(Particle particle, Dimension canvasSize);
 
-    public static Status getStatsu() {
+    public static Status getStatus() {
         return status;
     }
 
@@ -30,15 +30,16 @@ public abstract class Status {
      * @param size
      * @return Point2D vector
      */
-    Point reflect(Point2D position, Point2D vector, Dimension size) {
+    Point2D.Double reflect(Point2D.Double position, Point2D vector, Dimension size) {
         double x = vector.getX();
         double y = vector.getY();
+
         if (position.getX() >= size.getWidth()) x *= -1;
         else if (position.getY() >= size.getHeight()) y *= -1;
         else if (position.getX() <= 0) x *= -1;
         else if (position.getY() <= 0) y *= -1;
 
-        return new Point((int) x, (int) y);
+        return new Point2D.Double(x, y);
     }
 
 }
