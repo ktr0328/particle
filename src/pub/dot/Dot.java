@@ -1,6 +1,4 @@
-package pub.Dot;
-
-import pub.controll.act.Status;
+package pub.dot;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -11,7 +9,7 @@ import java.awt.geom.Point2D;
 public class Dot extends Particle {
     private String symbol;
 
-    public Dot(int size, Dimension dimension) {
+    public Dot(Dimension dimension) {
         super(dimension);
         this.symbol = ".";
     }
