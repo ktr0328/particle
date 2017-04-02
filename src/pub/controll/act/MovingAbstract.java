@@ -26,14 +26,14 @@ public abstract class MovingAbstract {
      * @param size
      * @return Point2D vector
      */
-    Point2D.Double reflect(Point2D.Double position, Point2D vector, Dimension size) {
-        double x = vector.getX();
-        double y = vector.getY();
+    Point2D.Double reflect(Point2D.Double position, Point2D.Double vector, Dimension size) {
+        double x = vector.x;
+        double y = vector.y;
 
-        if (position.getX() >= size.getWidth()) x *= -1;
-        else if (position.getY() >= size.getHeight()) y *= -1;
-        else if (position.getX() <= 0) x *= -1;
-        else if (position.getY() <= 0) y *= -1;
+        if (position.x >= size.getWidth()) x *= -1;
+        else if (position.y >= size.getHeight()) y *= -1;
+        else if (position.x <= 0) x *= -1;
+        else if (position.y <= 0) y *= -1;
 
         return new Point2D.Double(x, y);
     }

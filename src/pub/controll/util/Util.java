@@ -17,7 +17,7 @@ public class Util {
     private static long nanoTime = 0;
 
     public static boolean isWithInRange(Point2D.Double p1, Point2D.Double p2, int range) {
-        return getDistance(p1.getX(), p1.getY(), p2.getX(), p2.getY()) < range;
+        return getDistance(p1.x, p1.y, p2.x, p2.y) < range;
     }
 
     public static double getDistance(double x1, double y1, double x2, double y2) {

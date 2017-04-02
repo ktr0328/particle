@@ -33,7 +33,7 @@ public class CanvasArea extends CanvasAreaAbstract implements MouseListener, Mou
         drawer = new Drawer(this);
         particles = m.generateParticles(Setting.getSetting("dot_num"), true);
 
-        mousePoint = new Point(getX() / 2, getY() / 2);
+        mousePoint = new Point(getWidth() / 2, getHeight() / 2);
         addMouseListener(this);
         addMouseMotionListener(this);
         setFont(new Font("Ricty Diminished", Font.BOLD, Setting.getSetting("font_size")));

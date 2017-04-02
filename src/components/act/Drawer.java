@@ -8,10 +8,11 @@ import pub.dot.Particle;
 import pub.dot.Star;
 
 import java.awt.*;
+import java.awt.font.GlyphVector;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.util.HashMap;
+import java.awt.geom.Rectangle2D;
 
 import static pub.controll.util.Util.isWithInRange;
 
@@ -20,35 +21,25 @@ import static pub.controll.util.Util.isWithInRange;
  */
 public class Drawer {
     private CanvasArea canvas;
-    private HashMap<String, Color> colorMap;
+    private ColorManager cm;
 
     public Drawer(CanvasArea canvas) {
         this.canvas = canvas;
-        this.colorMap = generateColorMap();
-    }
-
-    private HashMap<String, Color> generateColorMap() {
-        HashMap<String, Color> map = new HashMap<>();
-
-        map.put("bg_c", new Color(Setting.getSetting("color_red"),
-            Setting.getSetting("color_green"),
-            Setting.getSetting("color_blue")));
-        map.put("particle_c", Color.WHITE);
-        map.put("line_c", Color.CYAN);
-
-        return map;
+        this.cm = new ColorManager();
     }
 
     public void execute(Graphics2D g2) {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // 背景
-        g2.setColor(colorMap.get("bg_c"));
-        g2.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        // background
+        fillBackGround(g2);
 
-        g2.setColor(colorMap.get("line_c"));
-        g2.drawString("テスト", canvas.getWidth() / 2, canvas.getHeight() / 2);
+        // TEST text
+        String txt = "Particle";
+        Point2D.Double point = new Point2D.Double(canvas.getWidth() / 2, canvas.getHeight() / 2);
+        drawText(g2, txt, point);
 
+        // particles
         drawParticles(g2);
     }
 
@@ -56,16 +47,14 @@ public class Drawer {
         canvas.getParticles().forEach((e) -> {
             if (e instanceof Dot) {
                 int dotSize = Setting.getSetting("dot_size");
-                Ellipse2D.Double shape = new Ellipse2D.Double(e.getPoint().getX() - dotSize / 2, e.getPoint().getY() - dotSize / 2, dotSize, dotSize);
-                g2.setColor(colorMap.get("particle_c"));
+                Ellipse2D.Double shape = new Ellipse2D.Double(e.getPoint().x - dotSize / 2, e.getPoint().y - dotSize / 2, dotSize, dotSize);
+                g2.setColor(cm.getColorMap().get("particle_c"));
                 g2.fill(shape);
 
-                g2.setColor(colorMap.get("line_c"));
+                g2.setColor(cm.getColorMap().get("line_c"));
                 drawLines(g2, e);
             } else if (e instanceof Star) {
-                g2.drawString(Integer.toString((int) e.getSymbol()),
-                    (int) e.getPoint().getX(),
-                    (int) e.getPoint().getY());
+                drawText(g2, "★", e.getPoint());
             }
         });
     }
@@ -73,7 +62,7 @@ public class Drawer {
     private void drawLines(Graphics2D g2, Particle e1) {
         canvas.getParticles().stream().skip(canvas.getParticles().indexOf(e1)).forEach(e2 -> {
             if (isWithInRange(e1.getPoint(), e2.getPoint(), Setting.getSetting("line_range"))) {
-                g2.setColor(setColorAlpha(g2.getColor(), e1.getPoint(), e2.getPoint()));
+                g2.setColor(cm.setColorAlpha(g2.getColor(), e1.getPoint(), e2.getPoint()));
 
                 Line2D.Double line = new Line2D.Double(e1.getPoint(), e2.getPoint());
                 g2.draw(line);
@@ -81,8 +70,34 @@ public class Drawer {
         });
     }
 
-    private Color setColorAlpha(Color nowColor, Point2D.Double p, Point2D.Double p2) {
-        return new Color(nowColor.getRed(), nowColor.getGreen(), nowColor.getBlue(),
-            Util.getAlphaAccordingToDistance(p.getX(), p.getY(), p2.getX(), p2.getY()));
+    private void drawText(Graphics2D g2, String txt, Point2D.Double p) {
+        g2.setColor(cm.getColorMap().get("text_c"));
+        Rectangle2D rt = getTextRectangle(g2, txt);
+        double[] xy = {p.x - rt.getWidth() / 2, p.y + rt.getHeight() / 2};
+        g2.translate(xy[0], xy[1]);
+
+        g2.fill(getFontShape(g2, txt));
+        g2.translate(-xy[0], -xy[1]);
+    }
+
+    private void fillBackGround(Graphics2D g2) {
+        g2.setColor(cm.getColorMap().get("bg_c"));
+        g2.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+//        Rectangle rect = canvas.getBounds();
+//        int div = Setting.getSetting("div_num");
+
+    }
+
+    private Rectangle2D getTextRectangle(Graphics2D g2, String txt) {
+        FontMetrics fm = g2.getFontMetrics();
+        return fm.getStringBounds(txt, g2).getBounds2D();
+    }
+
+    private Shape getFontShape(Graphics2D g2, String txt) {
+        Font f = g2.getFont();
+        GlyphVector v = f.createGlyphVector(g2.getFontMetrics(f).getFontRenderContext(), txt);
+
+        return v.getOutline();
     }
 }

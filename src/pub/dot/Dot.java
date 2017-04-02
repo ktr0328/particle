@@ -14,11 +14,6 @@ public class Dot extends Particle {
         this.symbol = ".";
     }
 
-    @Override
-    public void setPoint(Point2D.Double point) {
-        p = point;
-    }
-
     public String getSymbol() {
         return symbol;
     }

@@ -14,15 +14,15 @@ public class Standard extends MovingAbstract {
 
     public Standard() {
         super();
-        this.coefficient = 0.3;
+        this.coefficient = 0.1;
     }
 
     @Override
     public void move(Particle p, Dimension canvasSize) {
-        double[] xy = {p.getPoint().getX(), p.getPoint().getY()};
+        double[] xy = {p.getPoint().x, p.getPoint().y};
 
-        p.setPoint(new Point2D.Double(xy[0] + p.getVector().getX() * this.coefficient,
-            xy[1] + p.getVector().getY() * this.coefficient));
+        p.setPoint(new Point2D.Double(xy[0] + p.getVector().x * this.coefficient,
+            xy[1] + p.getVector().y * this.coefficient));
 
         p.setPoint(barrier(p.getPoint(), CanvasArea.getMousePoint()));
 

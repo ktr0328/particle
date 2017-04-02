@@ -7,6 +7,6 @@ public class HighSpeed extends Standard {
 
     public HighSpeed() {
         super();
-        this.coefficient *= 3;
+        this.coefficient *= 5;
     }
 }

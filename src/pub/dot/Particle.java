@@ -11,7 +11,6 @@ public abstract class Particle {
     private static int serial;
 
     private int index;
-    private int size;
     private Random rnd;
     Point2D.Double p;
 
@@ -32,7 +31,7 @@ public abstract class Particle {
      */
     private Point2D.Double setVector(double limit) {
         Point2D.Double vector = new Point2D.Double(0, 0);
-        while (Math.abs(vector.getX()) >= 0 && Math.abs(vector.getX()) < 1 || Math.abs(vector.getY()) >= 0 && Math.abs(vector.getY()) < 1) {
+        while (Math.abs(vector.x) >= 0 && Math.abs(vector.x) < 1 || Math.abs(vector.y) >= 0 && Math.abs(vector.y) < 1) {
             vector.setLocation(rnd.nextDouble() * limit - rnd.nextDouble() * limit,
                 rnd.nextDouble() * limit - rnd.nextDouble() * limit);
         }
@@ -40,9 +39,7 @@ public abstract class Particle {
         return vector;
     }
 
-    /**
-     * Setter
-     */
+    // Setter
     public void setVector(Point2D.Double vector) {
         this.vector = vector;
     }
@@ -51,7 +48,9 @@ public abstract class Particle {
         return vector;
     }
 
-    public abstract void setPoint(Point2D.Double p);
+    public void setPoint(Point2D.Double point) {
+        p = point;
+    }
 
     public int getIndex() {
         return index;
