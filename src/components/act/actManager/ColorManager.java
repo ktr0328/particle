@@ -1,19 +1,25 @@
-package components.act;
+package components.act.actManager;
 
+import components.CanvasArea;
 import pub.controll.setting.Setting;
 import pub.controll.util.Util;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.stream.Stream;
 
 /**
  * Created by ktr on 2017/03/31.
  */
-class ColorManager {
+public class ColorManager {
     private HashMap<String, Color> colorMap;
 
-    ColorManager() {
+    public ColorManager() {
         this.colorMap = generateColorMap();
     }
 
@@ -30,10 +36,12 @@ class ColorManager {
         return map;
     }
 
-    Color setColorAlpha(Color nowColor, Point2D.Double p, Point2D.Double p2) {
+    public Color setColorAlpha(Color nowColor, Point2D.Double p, Point2D.Double p2) {
         return new Color(nowColor.getRed(), nowColor.getGreen(), nowColor.getBlue(),
             Util.getAlphaAccordingToDistance(p.x, p.y, p2.x, p2.y));
     }
 
-    HashMap<String, Color> getColorMap() {return colorMap;}
+    public HashMap<String, Color> getColorMap() {
+        return colorMap;
+    }
 }

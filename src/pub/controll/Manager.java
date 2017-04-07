@@ -23,15 +23,14 @@ import java.util.stream.Stream;
 public class Manager {
     private CanvasArea canvas;
     private Timer timer;
-    private final int FPS;
 
     private MovingAbstract s;
     private LinkedHashMap<String, MovingAbstract> status_list;
 
     public Manager(CanvasArea canvas) {
         this.canvas = canvas;
-        this.FPS = Setting.getSetting("fps");
-        timer = new Timer(1000 / this.FPS, new CanvasTimer());
+        int FPS = Setting.getSetting("fps");
+        timer = new Timer(1000 / FPS, new CanvasTimer());
 
         status_list = new LinkedHashMap<>();
         status_list.put("standard", new Standard());

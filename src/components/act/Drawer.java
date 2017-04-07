@@ -1,8 +1,10 @@
 package components.act;
 
 import components.CanvasArea;
+import components.act.actManager.ColorManager;
+import components.act.actManager.Rect;
+import components.act.actManager.SquareManager;
 import pub.controll.setting.Setting;
-import pub.controll.util.Util;
 import pub.dot.Dot;
 import pub.dot.Particle;
 import pub.dot.Star;
@@ -22,13 +24,16 @@ import static pub.controll.util.Util.isWithInRange;
 public class Drawer {
     private CanvasArea canvas;
     private ColorManager cm;
+    private SquareManager sm;
 
     public Drawer(CanvasArea canvas) {
         this.canvas = canvas;
         this.cm = new ColorManager();
+        this.sm = new SquareManager(canvas);
     }
 
     public void execute(Graphics2D g2) {
+//        Util.testStart();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // background
@@ -41,6 +46,7 @@ public class Drawer {
 
         // particles
         drawParticles(g2);
+//        Util.testEnd(new int[]{1,2,3});
     }
 
     private void drawParticles(Graphics2D g2) {
@@ -84,9 +90,13 @@ public class Drawer {
         g2.setColor(cm.getColorMap().get("bg_c"));
         g2.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-//        Rectangle rect = canvas.getBounds();
-//        int div = Setting.getSetting("div_num");
-
+        Rect[][] rects = sm.rects;
+        for(int i = 0; i < sm.rects.length; i++) {
+            for(int j = 0; j < sm.rects[0].length; j++) {
+                g2.setColor(rects[i][j].getColor());
+                g2.fill(rects[i][j]);
+            }
+        }
     }
 
     private Rectangle2D getTextRectangle(Graphics2D g2, String txt) {
