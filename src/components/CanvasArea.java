@@ -18,10 +18,10 @@ import java.util.ArrayList;
  * Created by ktr on 2017/03/18.
  */
 public class CanvasArea extends CanvasAreaAbstract implements MouseListener, MouseMotionListener {
-    private Color bgColor;
     private static Manager m;
     private static Point mousePoint;
     private Drawer drawer;
+    public boolean barrierFlag = false;
 
     private ArrayList<Particle> particles;
 
@@ -36,7 +36,7 @@ public class CanvasArea extends CanvasAreaAbstract implements MouseListener, Mou
         mousePoint = new Point(getWidth() / 2, getHeight() / 2);
         addMouseListener(this);
         addMouseMotionListener(this);
-        setFont(new Font("Ricty Diminished", Font.BOLD, Setting.getSetting("font_size")));
+        setFont(new Font("Ricty Diminished", Font.PLAIN, Setting.getSetting("font_size")));
 
         m.timerStart();
     }
@@ -60,7 +60,6 @@ public class CanvasArea extends CanvasAreaAbstract implements MouseListener, Mou
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
     }
 
     @Override
@@ -70,7 +69,7 @@ public class CanvasArea extends CanvasAreaAbstract implements MouseListener, Mou
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        barrierFlag = false;
     }
 
     @Override
@@ -85,6 +84,7 @@ public class CanvasArea extends CanvasAreaAbstract implements MouseListener, Mou
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        barrierFlag = true;
         mousePoint = e.getPoint();
     }
 

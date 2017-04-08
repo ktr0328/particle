@@ -29,9 +29,9 @@ public class ColorManager {
         map.put("bg_c", new Color(Setting.getSetting("color_red"),
             Setting.getSetting("color_green"),
             Setting.getSetting("color_blue")));
-        map.put("particle_c", Color.WHITE);
+        map.put("particle_c", Color.LIGHT_GRAY);
         map.put("line_c", Color.CYAN);
-        map.put("text_c", Color.ORANGE);
+        map.put("text_c", Color.LIGHT_GRAY);
 
         return map;
     }

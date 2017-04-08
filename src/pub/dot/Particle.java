@@ -1,5 +1,7 @@
 package pub.dot;
 
+import data.Data;
+
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Random;
@@ -12,15 +14,16 @@ public abstract class Particle {
 
     private int index;
     private Random rnd;
-    Point2D.Double p;
-
+    private Point2D.Double p;
     private Point2D.Double vector;
+    private Data data;
 
-    Particle(Dimension canvas_size) {
+    Particle(Dimension canvas_size, Data data) {
         this.index = ++serial;
         rnd = new Random();
         this.p = new Point.Double(rnd.nextDouble() * canvas_size.getWidth(), rnd.nextDouble() * canvas_size.getHeight());
         this.vector = setVector(6d);
+        this.data = data;
     }
 
     /**
@@ -60,5 +63,9 @@ public abstract class Particle {
 
     public Point2D.Double getPoint() {
         return this.p;
+    }
+
+    public Data getData() {
+        return data;
     }
 }

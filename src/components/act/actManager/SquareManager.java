@@ -10,7 +10,7 @@ import java.awt.*;
  */
 public class SquareManager {
     private CanvasArea canvas;
-    public Rect[][] rects;
+    Rect[][] rects;
 
     public SquareManager(CanvasArea canvas) {
         this.canvas = canvas;

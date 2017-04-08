@@ -16,7 +16,7 @@ public abstract class MovingAbstract {
 
     }
 
-    public abstract void move(Particle particle, Dimension canvasSize);
+    public abstract void move(Particle particle, Dimension canvasSize, boolean barrierFlag);
 
     /**
      * 壁反射。particleの座標に応じてベクトルを反転させる。

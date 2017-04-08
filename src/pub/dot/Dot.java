@@ -1,5 +1,7 @@
 package pub.dot;
 
+import data.Data;
+
 import java.awt.*;
 import java.awt.geom.Point2D;
 
@@ -9,8 +11,8 @@ import java.awt.geom.Point2D;
 public class Dot extends Particle {
     private String symbol;
 
-    public Dot(Dimension dimension) {
-        super(dimension);
+    public Dot(Dimension dimension, Data data) {
+        super(dimension, data);
         this.symbol = ".";
     }
 

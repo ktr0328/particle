@@ -18,13 +18,13 @@ public class Standard extends MovingAbstract {
     }
 
     @Override
-    public void move(Particle p, Dimension canvasSize) {
+    public void move(Particle p, Dimension canvasSize, boolean barrierFlag) {
         double[] xy = {p.getPoint().x, p.getPoint().y};
 
         p.setPoint(new Point2D.Double(xy[0] + p.getVector().x * this.coefficient,
             xy[1] + p.getVector().y * this.coefficient));
 
-        p.setPoint(barrier(p.getPoint(), CanvasArea.getMousePoint()));
+        if(barrierFlag) p.setPoint(barrier(p.getPoint(), CanvasArea.getMousePoint()));
 
         p.setPoint(dotLoop(p.getPoint(), canvasSize));
     }

@@ -1,10 +1,12 @@
 package pub.controll;
 
 import components.CanvasArea;
+import data.Data;
 import pub.controll.act.HighSpeed;
 import pub.controll.act.MovingAbstract;
 import pub.controll.act.Standard;
 import pub.controll.setting.Setting;
+import pub.controll.util.DataManager;
 import pub.dot.Dot;
 import pub.dot.Particle;
 import pub.dot.Star;
@@ -24,8 +26,9 @@ public class Manager {
     private CanvasArea canvas;
     private Timer timer;
 
-    private MovingAbstract s;
+    private MovingAbstract status;
     private LinkedHashMap<String, MovingAbstract> status_list;
+    private DataManager dm;
 
     public Manager(CanvasArea canvas) {
         this.canvas = canvas;
@@ -36,29 +39,30 @@ public class Manager {
         status_list.put("standard", new Standard());
         status_list.put("high_speed", new HighSpeed());
 
-        this.s = status_list.get("standard");
+        this.status = status_list.get("standard");
+        dm = new DataManager();
     }
 
     public ArrayList<Particle> generateParticles(int num, boolean isDot) {
         ArrayList<Particle> arr = new ArrayList<>();
-        Stream.iterate(0, i -> ++i).limit(num).forEach(i -> arr.add(createEach(isDot)));
+        Stream.iterate(0, i -> ++i).limit(num).forEach(i -> arr.add(createEach(isDot, dm.list.get(i))));
 
         return arr;
     }
 
-    private Particle createEach(boolean isDot) {
+    private Particle createEach(boolean isDot, Data data) {
         if (isDot)
-            return new Dot(new Dimension(canvas.getWidth(), canvas.getHeight()));
+            return new Dot(new Dimension(canvas.getWidth(), canvas.getHeight()), data);
         else
-            return new Star(new Dimension(canvas.getWidth(), canvas.getHeight()));
+            return new Star(new Dimension(canvas.getWidth(), canvas.getHeight()), data);
     }
 
-    public MovingAbstract getS() {
-        return s;
+    public MovingAbstract getStatus() {
+        return status;
     }
 
     public void change_status(String status) {
-        this.s = status_list.get(status);
+        this.status = status_list.get(status);
     }
 
     public void timerStart() {
@@ -69,7 +73,7 @@ public class Manager {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            canvas.getParticles().forEach((elem) -> s.move(elem, canvas.getSize()));
+            canvas.getParticles().forEach((elem) -> status.move(elem, canvas.getSize(), canvas.barrierFlag));
             canvas.repaint();
         }
     }
