@@ -7,7 +7,7 @@ import java.awt.*;
 /**
  * Created by ktr on 2017/04/08.
  */
-public class BackGroundDrawer extends Thread{
+public class BackGroundDrawer extends Thread {
     private ColorManager cm;
     private CanvasArea canvas;
     private SquareManager sm;
@@ -18,11 +18,16 @@ public class BackGroundDrawer extends Thread{
         this.sm = sm;
     }
 
-    public void fillBackGround(Graphics2D g2) {
-        g2.setColor(cm.getColorMap().get("bg_c"));
-        g2.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    @Override
+    public void run() {
+//        fillBackGround();
+    }
 
+    public void fillBackGround(Graphics2D g2) {
         Rect[][] rects = sm.rects;
+
+        // TODO Rect globalColorを使って背景一色を表現する 同じcolorを参照させる -> Stateパターン？ ColorMode的な
+
         for (int i = 0; i < sm.rects.length; i++) {
             for (int j = 0; j < sm.rects[0].length; j++) {
                 g2.setColor(rects[i][j].getColor());

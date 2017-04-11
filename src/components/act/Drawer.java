@@ -15,7 +15,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
-import static pub.controll.util.Util.isWithInRange;
+import static pub.controll.util.Util.*;
 
 /**
  * Created by ktr on 2017/03/30.

@@ -12,6 +12,7 @@ public class Main {
         defaultPath(""),
         userPath("/config.properties");
 
+        // TODO CSV 言語情報を入れる
         final String path;
 
         Paths(String path) {

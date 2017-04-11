@@ -11,10 +11,12 @@ import java.awt.*;
 public class SquareManager {
     private CanvasArea canvas;
     Rect[][] rects;
+    private Color globalColor;
 
     public SquareManager(CanvasArea canvas) {
         this.canvas = canvas;
         this.rects = generateRects();
+        this.globalColor = canvas.getBackground();
     }
 
     private Rect[][] generateRects() {
@@ -25,7 +27,7 @@ public class SquareManager {
 
         for (int i = 0; i < tempRects.length; i++) {
             for (int j = 0; j < tempRects[0].length; j++) {
-                tempRects[i][j] = new Rect(new Rectangle(i * divSize, j * divSize, divSize, divSize), i, j, eachDiv);
+                tempRects[i][j] = new Rect(new Rectangle(i * divSize, j * divSize, divSize, divSize), i, j, eachDiv, globalColor);
             }
         }
 
