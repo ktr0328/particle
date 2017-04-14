@@ -1,25 +1,26 @@
 package pub.controll.setting;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * Created by ktr on 2017/03/18.
  */
 public class Setting {
-    private static HashMap<String, String> s;
+    private static HashMap<String, Integer> s;
 
     public Setting(String path) {
         s = readProperties(path);
     }
 
-    public static String getSetting(String key) {
+    public static int getSetting(String key) {
         return s.get(key);
     }
 
-    private HashMap<String, String> readProperties(String path) {
-        HashMap<String, String> tempMap = new HashMap<>();
+    private HashMap<String, Integer> readProperties(String path) {
+        HashMap<String, Integer> tempMap = new HashMap<>();
         Properties p = new Properties();
 
         try {
@@ -34,9 +35,9 @@ public class Setting {
         return tempMap;
     }
 
-    private void setConfigData(Map<String, String> map, Properties p) {
+    private void setConfigData(Map<String, Integer> map, Properties p) {
         for (String key : p.stringPropertyNames()) {
-            map.put(key, p.getProperty(key));
+            map.put(key, Integer.parseInt(p.getProperty(key)));
         }
     }
 }

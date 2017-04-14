@@ -1,7 +1,6 @@
-package components;
+package components.menus;
 
 import javax.swing.JMenuItem;
-import java.awt.event.KeyEvent;
 
 /**
  * Created by ktr on 2017/03/19.

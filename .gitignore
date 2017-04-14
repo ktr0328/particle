@@ -1,4 +1,6 @@
 .idea/
 out/
-src/data/
-particle.iml
+#src/data/
+README.md
+memo.md
+*.iml

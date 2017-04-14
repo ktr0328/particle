@@ -1,38 +1,42 @@
 package components;
 
-
+import components.act.Drawer;
 import components.obj.CanvasAreaAbstract;
-import pub.Dot.Dot;
-import pub.Dot.Particle;
-import pub.Dot.Star;
 import pub.controll.Manager;
 import pub.controll.setting.Setting;
+import pub.controll.util.Util;
+import pub.dot.Particle;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
 
 /**
  * Created by ktr on 2017/03/18.
  */
-public class CanvasArea extends CanvasAreaAbstract {
-    private Color bgColor;
-    private Font font;
+public class CanvasArea extends CanvasAreaAbstract implements MouseListener, MouseMotionListener {
     private static Manager m;
+    private static Point mousePoint;
+    private Drawer drawer;
+    public boolean barrierFlag = false;
 
-    private HashMap<String, Particle> particles;
+    private ArrayList<Particle> particles;
 
     CanvasArea(int width, int height) {
         super(width, height);
 
         m = new Manager(this);
-        this.bgColor = new Color(Integer.parseInt(Setting.getSetting("color_red")),
-                Integer.parseInt(Setting.getSetting("color_green")),
-                Integer.parseInt(Setting.getSetting("color_blue")));
-        this.font = new Font("Ricty Diminished", Font.BOLD, Integer.parseInt(Setting.getSetting("font_size")));
 
-        particles = m.generateParticles(Integer.parseInt(Setting.getSetting("dot_num")), true);
+        drawer = new Drawer(this);
+        particles = m.generateParticles(Setting.getSetting("dot_num"), true);
+
+        mousePoint = new Point(getWidth() / 2, getHeight() / 2);
+        addMouseListener(this);
+        addMouseMotionListener(this);
+        setFont(new Font("Ricty Diminished", Font.PLAIN, Setting.getSetting("font_size")));
 
         m.timerStart();
     }
@@ -41,39 +45,51 @@ public class CanvasArea extends CanvasAreaAbstract {
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        g2.setColor(bgColor);
-        g2.fillRect(0, 0, this.getWidth(), this.getHeight());
+        // TEST
+        // Util.testStart();
+        drawer.execute(g2);
+        // Util.testEnd(new int[]{Util.MILI});
+    }
 
-        g2.setColor(Color.WHITE);
-        g2.setFont(this.font);
-        g2.drawString("テスト", getWidth() / 2, getHeight() / 2);
+    public ArrayList<Particle> getParticles() { return particles; }
 
-        drawParticles(g2);
+    public static Manager getM() { return m; }
+
+    public static Point getMousePoint() { return mousePoint; }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
 
     }
 
-    private void drawParticles(Graphics2D g2) {
-        particles.entrySet().forEach(e -> {
-            if (particles.get(e.getKey()) instanceof Dot) {
-                g2.drawString((String) particles.get(e.getKey()).getSymbol(),
-                        (int)particles.get(e.getKey()).getPoint().getX(),
-                        (int) particles.get(e.getKey()).getPoint().getY());
-            } else if (particles.get(e.getKey()) instanceof Star) {
-                g2.drawString(Integer.toString((int)particles.get(e.getKey()).getSymbol()),
-                        (int)particles.get(e.getKey()).getPoint().getX(),
-                        (int) particles.get(e.getKey()).getPoint().getY());
-            }
-        });
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        barrierFlag = false;
     }
 
-    public HashMap<String, Particle> getParticles() {
-        return particles;
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
     }
 
-    public static Manager getM() {
-        return m;
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        barrierFlag = true;
+        mousePoint = e.getPoint();
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+    }
 }
