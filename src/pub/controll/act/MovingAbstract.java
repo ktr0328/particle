@@ -13,6 +13,7 @@ import java.awt.geom.Point2D;
  */
 public abstract class MovingAbstract {
     CanvasArea canvas;
+    String name;
 
     MovingAbstract(CanvasArea canvas) {
         this.canvas = canvas;
@@ -66,5 +67,8 @@ public abstract class MovingAbstract {
         return point;
     }
 
+    public String getName() {
+        return this.name;
+    }
 }
 

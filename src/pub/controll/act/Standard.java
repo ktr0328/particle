@@ -14,6 +14,7 @@ public class Standard extends MovingAbstract {
     public Standard(CanvasArea canvas) {
         super(canvas);
         this.coefficient = 0.1;
+        this.name = "Particle";
     }
 
     @Override

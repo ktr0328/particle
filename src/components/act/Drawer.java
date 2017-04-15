@@ -42,7 +42,7 @@ public class Drawer {
         bd.fillBackGround(g2);
 
         // TEST text
-        String txt = "Particle";
+        String txt = CanvasArea.getM().getStatus().getName();
         Point2D.Double point = new Point2D.Double(canvas.getWidth() / 2, canvas.getHeight() / 2);
         td.drawText(g2, txt, point, TextDrawer.Fonts.B_ITALIC, Color.ORANGE);
 

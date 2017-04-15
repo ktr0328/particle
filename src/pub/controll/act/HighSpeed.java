@@ -10,5 +10,6 @@ public class HighSpeed extends Standard {
     public HighSpeed(CanvasArea canvas) {
         super(canvas);
         this.coefficient *= 5;
+        this.name = "HighSpeed";
     }
 }

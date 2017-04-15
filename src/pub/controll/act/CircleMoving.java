@@ -20,6 +20,7 @@ public class CircleMoving extends MovingAbstract {
         super(canvas);
         this.div = 360d / Setting.getSetting("dot_num");
         this.goals = initGoalPoints();
+        this.name = "Circle";
     }
 
     @Override
@@ -37,9 +38,7 @@ public class CircleMoving extends MovingAbstract {
 
     private Point2D.Double[] moveGoalPoints(Point2D.Double[] goals) {
         Point2D.Double[] points = new Point2D.Double[goals.length];
-        Stream.iterate(0, i -> ++i).limit(goals.length).forEach(i -> {
-            points[i] = moveEachGoalPoint(goals[i]);
-        });
+        Stream.iterate(0, i -> ++i).limit(goals.length).forEach(i -> points[i] = moveEachGoalPoint(goals[i]));
 
         return points;
     }
