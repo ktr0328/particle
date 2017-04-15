@@ -19,11 +19,15 @@ public abstract class Particle {
     private Data data;
 
     Particle(Dimension canvas_size, Data data) {
-        this.index = ++serial;
+        this.index = serial++;
         rnd = new Random();
-        this.p = new Point.Double(rnd.nextDouble() * canvas_size.getWidth(), rnd.nextDouble() * canvas_size.getHeight());
+        this.p = initPoint(canvas_size);
         this.vector = setVector(6d);
         this.data = data;
+    }
+
+    public Point2D.Double initPoint(Dimension canvas_size) {
+        return new Point2D.Double(rnd.nextDouble() * canvas_size.getWidth(), rnd.nextDouble() * canvas_size.getHeight());
     }
 
     /**

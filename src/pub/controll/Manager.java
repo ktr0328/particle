@@ -2,6 +2,7 @@ package pub.controll;
 
 import components.CanvasArea;
 import data.Data;
+import pub.controll.act.CircleMoving;
 import pub.controll.act.HighSpeed;
 import pub.controll.act.MovingAbstract;
 import pub.controll.act.Standard;
@@ -36,8 +37,9 @@ public class Manager {
         timer = new Timer(1000 / FPS, new CanvasTimer());
 
         status_list = new LinkedHashMap<>();
-        status_list.put("standard", new Standard());
-        status_list.put("high_speed", new HighSpeed());
+        status_list.put("standard", new Standard(canvas));
+        status_list.put("high_speed", new HighSpeed(canvas));
+        status_list.put("circle_moving", new CircleMoving(canvas));
 
         this.status = status_list.get("standard");
         dm = new DataManager();
@@ -51,10 +53,8 @@ public class Manager {
     }
 
     private Particle createEach(boolean isDot, Data data) {
-        if (isDot)
-            return new Dot(new Dimension(canvas.getWidth(), canvas.getHeight()), data);
-        else
-            return new Star(new Dimension(canvas.getWidth(), canvas.getHeight()), data);
+        if (isDot) return new Dot(new Dimension(canvas.getWidth(), canvas.getHeight()), data);
+        else return new Star(new Dimension(canvas.getWidth(), canvas.getHeight()), data);
     }
 
     public MovingAbstract getStatus() {
@@ -73,7 +73,7 @@ public class Manager {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            canvas.getParticles().forEach((elem) -> status.move(elem, canvas.getSize(), canvas.barrierFlag));
+            canvas.getParticles().forEach((elem) -> status.move(elem, canvas.barrierFlag));
             canvas.repaint();
         }
     }

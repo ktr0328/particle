@@ -3,7 +3,6 @@ package pub.controll.act;
 import components.CanvasArea;
 import pub.dot.Particle;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
@@ -12,13 +11,13 @@ import java.awt.geom.Point2D;
 public class Standard extends MovingAbstract {
     double coefficient;
 
-    public Standard() {
-        super();
+    public Standard(CanvasArea canvas) {
+        super(canvas);
         this.coefficient = 0.1;
     }
 
     @Override
-    public void move(Particle p, Dimension canvasSize, boolean barrierFlag) {
+    public void move(Particle p, boolean barrierFlag) {
         double[] xy = {p.getPoint().x, p.getPoint().y};
 
         p.setPoint(new Point2D.Double(xy[0] + p.getVector().x * this.coefficient,
@@ -26,6 +25,6 @@ public class Standard extends MovingAbstract {
 
         if(barrierFlag) p.setPoint(barrier(p.getPoint(), CanvasArea.getMousePoint()));
 
-        p.setPoint(dotLoop(p.getPoint(), canvasSize));
+        p.setPoint(dotLoop(p.getPoint()));
     }
 }

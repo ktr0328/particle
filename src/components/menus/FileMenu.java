@@ -14,8 +14,9 @@ public class FileMenu extends MenuAbstract {
     public FileMenu(String title, HashMap<String, JMenuItem> menuItems) {
         super(title, menuItems);
 
-        createItem("foo", this, KeyEvent.VK_F, e -> CanvasArea.getM().change_status("high_speed"));
-        createItem("hoge", this, KeyEvent.VK_H, e -> CanvasArea.getM().change_status("standard"));
+        createItem("hoge", this, KeyEvent.VK_F1, e -> CanvasArea.getM().change_status("standard"));
+        createItem("foge", this, KeyEvent.VK_F2, e -> CanvasArea.getM().change_status("high_speed"));
+        createItem("goge", this, KeyEvent.VK_F3, e -> CanvasArea.getM().change_status("circle_moving"));
         createItem("quit", this, KeyEvent.VK_Q, e -> System.exit(1));
     }
 }
