@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -29,24 +30,19 @@ public class DataManager {
     public List<Data> list;
 
     public DataManager() {
-        list = new ArrayList<>();
-        List<String> ls = loadFile();
+        list = loadFile().stream()
+            .map(e -> e.split(","))
+            .map(Data::new)
+            .collect(Collectors.toList());
 
-        ls.forEach(e -> {
-            String[] arr = e.split(",");
-            list.add(new Data(arr));
-        });
         adjustDataNums(list);
     }
 
     private List<String> loadFile() {
         List<String> list = new ArrayList<>();
 
-        Stream<String> stream;
         try {
-            stream = Files.lines(Paths.get(FilePath.filePath.path));
-            stream.forEach(list::add);
-            stream.close();
+            list = Files.lines(Paths.get(FilePath.filePath.path)).collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,7 +51,9 @@ public class DataManager {
     }
 
     private void adjustDataNums(List list) {
-        Stream.iterate(list.size(), i -> ++i).limit(Setting.getSetting("dot_num")).forEach(i -> this.list.add(new Data()));
+        Stream.iterate(list.size(), i -> ++i)
+            .limit(Setting.get("dot_num"))
+            .forEach(i -> this.list.add(new Data()));
     }
 
 //    private void writeFile() {

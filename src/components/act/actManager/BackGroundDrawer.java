@@ -10,12 +10,13 @@ import java.awt.*;
 public class BackGroundDrawer extends Thread {
     private ColorManager cm;
     private CanvasArea canvas;
-    private SquareManager sm;
+    private Rect[][] rects;
+    private RectManager sm;
 
-    public BackGroundDrawer(ColorManager cm, CanvasArea canvas, SquareManager sm) {
+    public BackGroundDrawer(ColorManager cm, CanvasArea canvas, Rect[][] rects) {
         this.cm = cm;
         this.canvas = canvas;
-        this.sm = sm;
+        this.rects = rects;
     }
 
     @Override
@@ -24,12 +25,10 @@ public class BackGroundDrawer extends Thread {
     }
 
     public void fillBackGround(Graphics2D g2) {
-        Rect[][] rects = sm.rects;
-
         // TODO Rect globalColorを使って背景一色を表現する 同じcolorを参照させる -> Stateパターン？ ColorMode的な
 
-        for (int i = 0; i < sm.rects.length; i++) {
-            for (int j = 0; j < sm.rects[0].length; j++) {
+        for (int i = 0; i < rects.length; i++) {
+            for (int j = 0; j < rects[0].length; j++) {
                 g2.setColor(rects[i][j].getColor());
                 // TODO 回転動作を入れる
                 // g2.rotate(Math.toRadians(45), rects[i][j].x, rects[i][j].y);

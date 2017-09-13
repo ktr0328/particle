@@ -8,21 +8,19 @@ import java.awt.*;
 /**
  * Created by ktr on 2017/04/07.
  */
-public class SquareManager {
-    private CanvasArea canvas;
-    Rect[][] rects;
+public class RectManager {
+    private Rect[][] rects;
     private Color globalColor;
 
-    public SquareManager(CanvasArea canvas) {
-        this.canvas = canvas;
-        this.rects = generateRects();
+    public RectManager(CanvasArea canvas) {
+        this.rects = generateRects(canvas.getHeight(), canvas.getWidth());
         this.globalColor = canvas.getBackground();
     }
 
-    private Rect[][] generateRects() {
-        int div = Setting.getSetting("div_num");
-        int divSize = canvas.getHeight() > canvas.getWidth() ? canvas.getWidth() / div : canvas.getHeight() / div;
-        int[] eachDiv = {canvas.getWidth() / divSize, canvas.getHeight() / divSize};
+    private Rect[][] generateRects(int height, int width) {
+        int div = Setting.get("div_num");
+        int divSize = height > width ? width / div : height / div;
+        int[] eachDiv = {width / divSize, height / divSize};
         Rect[][] tempRects = new Rect[eachDiv[0] + 1][eachDiv[1] + 1];
 
         for (int i = 0; i < tempRects.length; i++) {
@@ -32,5 +30,9 @@ public class SquareManager {
         }
 
         return tempRects;
+    }
+
+    public Rect[][] getRects() {
+        return rects;
     }
 }

@@ -58,7 +58,7 @@ public abstract class MovingAbstract {
     }
 
     Point2D.Double barrier(Point2D.Double point, Point mPoint) {
-        int range = Setting.getSetting("barrier_range");
+        int range = Setting.get("barrier_range");
         if (Util.getDistance(point.x, point.y, mPoint.x, mPoint.y) < range) {
             double theta = Util.getRadian(mPoint.x, mPoint.y, point.x, point.y);
             return new Point2D.Double(mPoint.x + range * Math.cos(theta), mPoint.y + range * Math.sin(theta));

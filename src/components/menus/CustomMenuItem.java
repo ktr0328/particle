@@ -1,6 +1,6 @@
 package components.menus;
 
-import javax.swing.JMenuItem;
+import javax.swing.*;
 
 /**
  * Created by ktr on 2017/03/19.

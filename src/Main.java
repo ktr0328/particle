@@ -2,6 +2,7 @@
  * Created by ktr on 2017/03/18.
  */
 
+import components.CanvasArea;
 import components.MainFrame;
 import pub.controll.setting.Setting;
 import pub.controll.util.Util;
@@ -27,7 +28,11 @@ public class Main {
 
         Setting s = new Setting(Paths.userPath.path);
         MainFrame frame = new MainFrame("Particle");
+
+        Runtime.getRuntime().gc();
+
         frame.setVisible(true);
+        CanvasArea.getManager().timerStart();
 
         Util.testEnd(new int[]{Util.NANO, Util.SEC, Util.MILI});
     }

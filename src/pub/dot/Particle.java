@@ -22,6 +22,7 @@ public abstract class Particle {
         this.index = serial++;
         rnd = new Random();
         this.p = initPoint(canvas_size);
+        // TODO マジックナンバー
         this.vector = setVector(6d);
         this.data = data;
     }
@@ -32,6 +33,7 @@ public abstract class Particle {
 
     /**
      * ベクトルの初期設定
+     * 移動1以上で作成
      *
      * @param limit キャンバスのサイズ
      * @return ベクトル
@@ -46,9 +48,8 @@ public abstract class Particle {
         return vector;
     }
 
-    // Setter
-    public void setVector(Point2D.Double vector) {
-        this.vector = vector;
+    public void setVectorAgain(double limit) {
+        this.vector = setVector(limit);
     }
 
     public Point2D.Double getVector() {
@@ -63,7 +64,7 @@ public abstract class Particle {
         return index;
     }
 
-    public abstract Object getSymbol();
+    public abstract String getSymbol();
 
     public Point2D.Double getPoint() {
         return this.p;

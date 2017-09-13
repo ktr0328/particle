@@ -4,22 +4,21 @@ import components.act.Drawer;
 import components.obj.CanvasAreaAbstract;
 import pub.controll.Manager;
 import pub.controll.setting.Setting;
-import pub.controll.util.Util;
 import pub.dot.Particle;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
  * Created by ktr on 2017/03/18.
  */
 public class CanvasArea extends CanvasAreaAbstract implements MouseListener, MouseMotionListener {
-    private static Manager m;
+    private static Manager m; // FIXME File Menuを動かすためにstatic 正直心底staticにしたくない
     private static Point mousePoint;
+    private String inputText;
     private Drawer drawer;
     public boolean barrierFlag = false;
 
@@ -27,18 +26,16 @@ public class CanvasArea extends CanvasAreaAbstract implements MouseListener, Mou
 
     CanvasArea(int width, int height) {
         super(width, height);
-
+        this.inputText = "";
         m = new Manager(this);
 
         drawer = new Drawer(this);
-        particles = m.generateParticles(Setting.getSetting("dot_num"), true);
+        particles = m.generateParticles(Setting.get("dot_num"), true);
 
         mousePoint = new Point(getWidth() / 2, getHeight() / 2);
         addMouseListener(this);
         addMouseMotionListener(this);
-        setFont(new Font("Ricty Diminished", Font.PLAIN, Setting.getSetting("font_size")));
-
-        m.timerStart();
+        setFont(new Font("Ricty Diminished", Font.PLAIN, Setting.get("font_size")));
     }
 
     @Override
@@ -54,7 +51,7 @@ public class CanvasArea extends CanvasAreaAbstract implements MouseListener, Mou
 
     public ArrayList<Particle> getParticles() { return particles; }
 
-    public static Manager getM() { return m; }
+    public static Manager getManager() { return m; }
 
     public static Point getMousePoint() { return mousePoint; }
 
@@ -91,5 +88,13 @@ public class CanvasArea extends CanvasAreaAbstract implements MouseListener, Mou
     @Override
     public void mouseMoved(MouseEvent e) {
 
+    }
+
+    public String getInputText() {
+        return inputText;
+    }
+
+    public void setInputText(String text) {
+        this.inputText = text;
     }
 }

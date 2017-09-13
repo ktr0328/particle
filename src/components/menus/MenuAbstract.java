@@ -1,7 +1,9 @@
 package components.menus;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
@@ -19,7 +21,7 @@ abstract class MenuAbstract extends JMenu {
     void createItem(String name, JMenu target, int keyCode, ActionListener l) {
         JMenuItem item = new CustomMenuItem(name);
         this.menuItems.put(name, item);
-        setShortCutKey(this.menuItems.get(name), keyCode, KeyEvent.CTRL_DOWN_MASK);
+        setShortCutKey(this.menuItems.get(name), keyCode, InputEvent.ALT_DOWN_MASK);
         item.addActionListener(l);
 
         target.add(item);

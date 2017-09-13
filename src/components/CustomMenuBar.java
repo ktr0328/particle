@@ -10,10 +10,10 @@ import java.util.HashMap;
 /**
  * Created by ktr on 2017/03/19.
  */
-class CustomMenubar extends JMenuBar {
+class CustomMenuBar extends JMenuBar {
     private HashMap<String, JMenuItem> menuItems;
 
-    CustomMenubar() {
+    CustomMenuBar() {
         menuItems = new HashMap<>();
 
         FileMenu fileMenu = new FileMenu("File", menuItems);

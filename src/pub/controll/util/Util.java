@@ -25,7 +25,7 @@ public class Util {
     }
 
     public static int getAlphaAccordingToDistance(double x1, double y1, double x2, double y2) {
-        return (int) (255 - getDistance(x1, y1, x2, y2) / Setting.getSetting("line_range") * 255);
+        return (int) (255 - getDistance(x1, y1, x2, y2) / Setting.get("line_range") * 255);
     }
 
     public static double getRadian(double x, double y, double x2, double y2) {

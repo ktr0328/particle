@@ -6,6 +6,8 @@ import pub.controll.util.Util;
 import pub.dot.Particle;
 
 import java.awt.geom.Point2D;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -18,7 +20,7 @@ public class CircleMoving extends MovingAbstract {
 
     public CircleMoving(CanvasArea canvas) {
         super(canvas);
-        this.div = 360d / Setting.getSetting("dot_num");
+        this.div = 360d / Setting.get("dot_num");
         this.goals = initGoalPoints();
         this.name = "Circle";
     }
@@ -37,10 +39,9 @@ public class CircleMoving extends MovingAbstract {
     }
 
     private Point2D.Double[] moveGoalPoints(Point2D.Double[] goals) {
-        Point2D.Double[] points = new Point2D.Double[goals.length];
-        Stream.iterate(0, i -> ++i).limit(goals.length).forEach(i -> points[i] = moveEachGoalPoint(goals[i]));
-
-        return points;
+        return IntStream.rangeClosed(0, goals.length - 1).boxed()
+            .map(e -> moveEachGoalPoint(goals[e]))
+            .toArray(Point2D.Double[]::new);
     }
 
     private Point2D.Double moveEachGoalPoint(Point2D.Double point) {
@@ -53,15 +54,14 @@ public class CircleMoving extends MovingAbstract {
 
     private boolean isReached(Particle p) {
         double distance = Util.getDistance(p.getPoint().x, p.getPoint().y, goals[p.getIndex()].x, goals[p.getIndex()].y);
-        return distance < 0.5;
+        // TODO マジックナンバー
+        return distance < 0.5; // 誤差微調整用
     }
 
     private Point2D.Double[] initGoalPoints() {
-        Point2D.Double[] goals = new Point2D.Double[Setting.getSetting("dot_num")];
-        Stream.iterate(0, i -> ++i).limit(Setting.getSetting("dot_num"))
-            .forEach(i -> goals[i] = createEachGoalPoints(i));
-
-        return goals;
+        return IntStream.rangeClosed(0, Setting.get("dot_num")).boxed()
+            .map(this::createEachGoalPoints)
+            .toArray(Point2D.Double[]::new);
     }
 
     private Point2D.Double createEachGoalPoints(int index) {

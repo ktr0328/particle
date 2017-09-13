@@ -18,7 +18,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Created by ktr on 2017/03/23.
@@ -33,7 +34,7 @@ public class Manager {
 
     public Manager(CanvasArea canvas) {
         this.canvas = canvas;
-        int FPS = Setting.getSetting("fps");
+        int FPS = Setting.get("fps");
         timer = new Timer(1000 / FPS, new CanvasTimer());
 
         status_list = new LinkedHashMap<>();
@@ -46,10 +47,9 @@ public class Manager {
     }
 
     public ArrayList<Particle> generateParticles(int num, boolean isDot) {
-        ArrayList<Particle> arr = new ArrayList<>();
-        Stream.iterate(0, i -> ++i).limit(num).forEach(i -> arr.add(createEach(isDot, dm.list.get(i))));
-
-        return arr;
+        return IntStream.rangeClosed(0, num).boxed()
+            .map(e -> createEach(isDot, dm.list.get(e)))
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 
     private Particle createEach(boolean isDot, Data data) {
@@ -61,8 +61,11 @@ public class Manager {
         return status;
     }
 
-    public void change_status(String status) {
+    public void changeStatus(String status) {
+        Runtime.getRuntime().gc();
+
         this.status = status_list.get(status);
+        canvas.getParticles().forEach(e -> e.setVectorAgain(6d)); // マジックナンバー
     }
 
     public void timerStart() {
